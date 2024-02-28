@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="sem2.js"></script> -->
+    <script src="HW1.js"></script>
+  </head>
+  <body>
+    <input type="radio" name="review-radio" value="Apple iPhone 13" />
+    Оставить отзыв на Apple iPhone 13
+
+    <br />
+
+    <input type="radio" name="review-radio" value="Samsung Galaxy Z Fold 3" />
+    Оставить отзыв на Samsung Galaxy Z Fold 3
+
+    <br />
+
+    <input type="radio" name="review-radio" value="Sony PlayStation 5" />
+    Оставить отзыв на Sony PlayStation 5
+    <br />
+    <button type="button" onclick="getModel()">Get</button>
+
+    <div id="result"></div>
+
+    <label class="review-text">
+      Напишите ваш отзыв
+      <input type="text" placeholder="Все круто!" class="review-input" />
+    </label>
+    <button type="button" class="review-btn">Отправить</button>
+
+    <div class="review-reply"></div>
+
+    <!-- <script src="HW2.js"></script> -->
+    <script name="HW2">
+      let checkedModel = "";
+      function getModel() {
+        var model = document.getElementsByName("review-radio");
+
+        for (i = 0; i < model.length; i++) {
+          if (model[i].checked) {
+            document.getElementById("result").innerHTML =
+              "Вы хотите остаить отзыв на " + model[i].value;
+            checkedModel = model[i].value;
+          }
+        }
+      }
+
+      const reviewInput = document.querySelector(".review-input");
+      const reviewButton = document.querySelector(".review-btn");
+      const showReviewBox = document.querySelector(".review-reply");
+
+      reviewButton.addEventListener("click", () => {
+        const review = String(reviewInput.value);
+        try {
+          if (review.length > 500) {
+            throw new Error("Review is too long");
+          } else if (review.length < 50) {
+            throw new Error("Review is too short");
+          } else {
+            for (const searchModel of initialData) {
+              if (searchModel.product == checkedModel) {
+                console.log(searchModel);
+                searchModel.reviews.push({ id: 1, text: review });
+                showReviewBox.innerText = reviewDataToString(initialData);
+              }
+            }
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+      });
+
+      const initialData = [
+        {
+          product: "Apple iPhone 13",
+          reviews: [
+            {
+              id: "1",
+              text: "Отличный телефон! Батарея держится долго.",
+            },
+            {
+              id: "2",
+              text: "Камера супер, фото выглядят просто потрясающе.",
+            },
+          ],
+        },
+        {
+          product: "Samsung Galaxy Z Fold 3",
+          reviews: [
+            {
+              id: "3",
+              text: "Интересный дизайн, но дорогой.",
+            },
+          ],
+        },
+        {
+          product: "Sony PlayStation 5",
+          reviews: [
+            {
+              id: "4",
+              text: "Люблю играть на PS5, графика на высоте.",
+            },
+          ],
+        },
+      ];
+
+      function reviewDataToString(data) {
+        let reviewString = "";
+        for (const el of initialData) {
+          reviewString += el.product;
+          reviewString += " \n";
+
+          for (let review of el.reviews) {
+            reviewString += review.text;
+            reviewString += " \n";
+          }
+          reviewString += " \n";
+        }
+        console.log(reviewString);
+        return reviewString;
+      }
+    </script>
+  </body>
+</html>
