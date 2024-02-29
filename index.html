@@ -69,7 +69,7 @@
             }
           }
         } catch (error) {
-          console.log(error.message);
+          showReviewBox.innerText = error.message;
         }
       });
 
@@ -109,18 +109,21 @@
 
       function reviewDataToString(data) {
         let reviewString = "";
-        for (const el of initialData) {
-          reviewString += el.product;
-          reviewString += " \n";
-
-          for (let review of el.reviews) {
-            reviewString += review.text;
+        try {
+          for (const el of initialData) {
+            reviewString += el.product;
+            reviewString += " \n";
+            for (let review of el.reviews) {
+              reviewString += review.text;
+              reviewString += " \n";
+            }
             reviewString += " \n";
           }
-          reviewString += " \n";
+          console.log(reviewString);
+          return reviewString;
+        } catch (error) {
+          console.log(error.message);
         }
-        console.log(reviewString);
-        return reviewString;
       }
     </script>
   </body>
